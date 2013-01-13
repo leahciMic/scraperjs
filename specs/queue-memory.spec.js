@@ -38,4 +38,9 @@ describe('Memory Queue', function() {
     qm.clear();
     expect(qm.length()).toEqual(0);
   });
+
+  it('Get on empty queue should return false', function() {
+    expect(qm.get()).toBeFalsy();
+  });
+
 });
