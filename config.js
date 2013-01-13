@@ -39,7 +39,6 @@ Config = (function() {
   };
 
   Config.prototype.load = function() {
-    console.log('Reading configuration...');
     try {
       this.config = JSON.parse(
         fs.readFileSync('config.json', 'utf8')
