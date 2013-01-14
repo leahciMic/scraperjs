@@ -2,7 +2,7 @@ describe('Fetcher', function() {
   var Fetcher = require('../lib/fetcher.js');
   var fetcher = new Fetcher({name: 'test'});
 
-  var test_html = '<html><head><base href="http://example.com" /></head><body><h1>Test page</h1><ul><li><a href="http://example.com/page/1/">Page 1</a></li><li><a href="page/2/">Page 2</a></ul><span>product/45/</span></body></html>';
+  var test_html = '<html><head><base href="http://example.com" /></head><body><h1>Test page</h1><ul><li><a href="http://example.com/page/1/">Page 1</a></li><li><a href="page/2/">Page 2</a></ul><span>product/45/</span><div><p id="text">This is sample text.</p><input id="input" value="Sample value" /><img id="image" src="image.jpg" />AN6RMH3GCS5952YCCQKS</div></body></html>';
 
   var queueItem = {
     url: 'http://www.google.com',
@@ -88,6 +88,47 @@ describe('Fetcher', function() {
         expect(links[0].url).toEqual('http://example.com/product/45/');
         expect(links[0].callback).toEqual('test'); 
 
+        done();
+      }
+    );
+  });
+
+  // @lastTouched in the process of writing tests for processing data
+  /**
+   * A couple of memory dumps for when I come back,
+   * prcessLinks now returns links rather than adding them to the
+   * queue.
+   * getjQuery is no longer synchronous.
+   * fetcher/parser no longer separated
+   */
+   
+  it('Processing data', function(done) {
+    //Fetcher.prototype.processData = function(actions, $, html, queueItem, root) {
+    fetcher.getjQuery(
+      test_html,
+      function($) {
+        var data = fetcher.processData(
+          {
+            data: {
+              'jqnormalelement': '#text',
+              'jqinput': '#input',
+              'jqimage': '#image',
+              'regex': '/AN6RMH3GCS5952YCCQKS/',
+              'func': function() {
+                // @todo ensure we are getting passed the correct params
+                return 'oogie';
+              }
+            }
+          },
+          $,
+          test_html,
+          queueItem
+        );
+        expect(data.jqnormalelement).toEqual('This is sample text.');
+        expect(data.jqinput).toEqual('Sample value');
+        expect(data.jqimage).toEqual('image.jpg');
+        expect(data.regex).toEqual('AN6RMH3GCS5952YCCQKS');
+        expect(data.func).toEqual('oogie');
         done();
       }
     );
