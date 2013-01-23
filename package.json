@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "description": "Scrape all the things",
   "main": "index.js",
-  "scripts": {
-    "test": "jasmine-node specs/"
-  },
   "repository": "",
   "author": "Michael Leaney",
   "license": "BSD",
+	"scripts": {
+		"test": "make test"
+	},
   "dependencies": {
     "jquery": "~1.8.3",
     "jsdom": "~0.3.4",
