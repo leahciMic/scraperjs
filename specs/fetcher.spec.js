@@ -81,17 +81,21 @@ describe('Fetcher', function() {
             expect(links[1].url).toEqual('http://example.com/page/2/');
             expect(links[0].callback).toEqual('test');
             expect(links[1].callback).toEqual('test');
-            links = fetcher.processLinks(
+            fetcher.processLinks(
               {
                 links: {
                   '/product\\/45\\//': 'test'
                 }
-              }, $, test_html, queueItem
+              }, 
+              $, 
+              test_html, 
+              queueItem,
+              function(links) {
+                expect(links[0].url).toEqual('http://example.com/product/45/');
+                expect(links[0].callback).toEqual('test'); 
+                done();
+              }
             );
-            expect(links[0].url).toEqual('http://example.com/product/45/');
-            expect(links[0].callback).toEqual('test'); 
-
-            done();
           }
         );
       }
