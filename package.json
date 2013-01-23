@@ -4,7 +4,7 @@
   "description": "Scrape all the things",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node tests/"
+    "test": "jasmine-node specs/"
   },
   "repository": "",
   "author": "Michael Leaney",
