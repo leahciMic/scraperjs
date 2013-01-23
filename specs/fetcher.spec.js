@@ -122,14 +122,16 @@ describe('Fetcher', function() {
           },
           $,
           test_html,
-          queueItem
+          queueItem,
+          function(data) {
+            expect(data.jqnormalelement).toEqual('This is sample text.');
+            expect(data.jqinput).toEqual('Sample value');
+            expect(data.jqimage).toEqual('image.jpg');
+            expect(data.regex).toEqual('AN6RMH3GCS5952YCCQKS');
+            expect(data.func).toEqual('oogie');
+            done();
+          }
         );
-        expect(data.jqnormalelement).toEqual('This is sample text.');
-        expect(data.jqinput).toEqual('Sample value');
-        expect(data.jqimage).toEqual('image.jpg');
-        expect(data.regex).toEqual('AN6RMH3GCS5952YCCQKS');
-        expect(data.func).toEqual('oogie');
-        done();
       }
     );
   });
