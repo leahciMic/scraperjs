@@ -6,15 +6,15 @@
   "repository": "",
   "author": "Michael Leaney",
   "license": "BSD",
-	"scripts": {
-		"test": "make test"
-	},
+  "scripts": {
+    "test": "make test"
+  },
   "dependencies": {
     "jquery": "~1.8.3",
     "jsdom": "~0.3.4",
     "underscore": "~1.4.3",
-    "flow": "~0.2.2",
     "jasmine-node": "~1.0.28",
-    "restler": "~2.0.1"
+    "restler": "~2.0.1",
+    "flow-maintained": "~0.2.3"
   }
 }
