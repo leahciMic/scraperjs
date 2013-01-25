@@ -2,6 +2,7 @@ var Config = require('./config.js');
 global.config = Config.get();
 
 var fs = require('fs');
+var _ = require('underscore');
 
 fs.readdir(
   './fetchers',
