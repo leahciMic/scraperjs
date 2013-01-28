@@ -1,4 +1,11 @@
 # ScraperJS
+
+[![Build Status](https://travis-ci.org/leahciMic/scraperjs.png?branch=master)](https://travis-ci.org/leahciMic/scraperjs)
+
+## Current state
+ScraperJS is currently a work in progress, and is not yet ready to be used. However, feel free to
+check out the code, fork it, submit pull requests. Make suggestions, and add issues.
+
 ScraperJS is an extensible JavaScript framework for scraping the web. It utilises cheerio (jQuery 
 implementation for the server) or jQuery, and regular expressions to gather required data from a page. 
 It provides basic functionality out of the box for simple scraping tasks, and this basic functionality
