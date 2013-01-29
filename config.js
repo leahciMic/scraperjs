@@ -5,8 +5,15 @@ Config = (function() {
   var _ = require('underscore');
   function Config() {
     this.defaults = {
-      data: 'datastore-file.js',
-      queue: 'queue-memory.js',
+      datastore: {
+        filename: 'datastore-file.js',
+        options: {
+          saveTo: 'results/'
+        }
+      },
+      queuestore: {
+        filename: 'queue-memory.js'
+      },
       device: this.generateDeviceId(),
       method: 'phantom'
     };

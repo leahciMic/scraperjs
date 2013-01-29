@@ -1,1 +1,1 @@
-{"data":"datastore-file.js","queue":"queue-memory.js","device":"6d153556e29d5d3505ac8558e2563867324f149b","method":"phantom"}
+{"datastore":{"filename":"datastore-file.js","options":{"saveTo":"results/"}},"queuestore":{"filename":"queue-memory.js"},"device":"3beaa9af38c8ae6f8b4bcf2af7843c26b3c9956f","method":"phantom"}
