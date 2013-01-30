@@ -18,8 +18,7 @@ var reddit = Fetcher.extend({
 	},
 	initialize: function() {
 		this.queue.add(
-			'http://www.reddit.com/',
-			'home'
+			{url: 'http://www.reddit.com/', callback: 'home'}
 		);
 	}
 });
