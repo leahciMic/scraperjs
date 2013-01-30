@@ -6,11 +6,25 @@ describe('Memory Queue', function() {
     expect(qm.length()).toEqual(0);
   });
 
-  it('Add an item', function() {
-    qm.add('http://example.com', 'test');
-    expect(qm.length()).toEqual(1);
-    qm.add('http://example.com/2', 'test2');
-    expect(qm.length()).toEqual(2);
+  it('Add an item', function(done) {
+    qm.add({url: 'http://example.com', callback: 'test'}, function() {
+      expect(qm.length()).toEqual(1);  
+      done();
+    });
+  });
+
+  it('Add an array of items', function(done) {
+    qm.add(
+      [
+        {url: 'http://example.com/2', callback: 'test2'},
+        {url: 'http://example.com/3', callback: 'test3'},
+        {url: 'http://example.com/4', callback: 'test4'}
+      ],
+      function() {
+        expect(qm.length()).toEqual(4);
+        done();
+      }
+    )
   });
 
   it('Item exists', function() {
@@ -29,7 +43,7 @@ describe('Memory Queue', function() {
 
   it('Get an item', function() {
     var qi = qm.get();
-    expect(qm.length()).toEqual(1);
+    expect(qm.length()).toEqual(3);
     expect(qi.url).toEqual('http://example.com');
     expect(qi.callback).toEqual('test');
   });

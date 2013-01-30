@@ -1,4 +1,3 @@
-
 describe('Fetcher', function() {
   var Datastore = require('../lib/datastore-file.js'),
       fs = require('fs');
