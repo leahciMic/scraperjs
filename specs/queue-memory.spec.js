@@ -8,9 +8,20 @@ describe('Memory Queue', function() {
 
   it('Add an item', function(done) {
     qm.add({url: 'http://example.com', callback: 'test'}, function() {
-      expect(qm.length()).toEqual(1);  
+      expect(qm.length()).toEqual(1);
       done();
     });
+  });
+
+  it('Add an empty array', function(done) {
+    var qlength = qm.length();
+    qm.add(
+      [],
+      function() {
+        expect(qm.length()).toEqual(qlength);
+        done();
+      }
+    );
   });
 
   it('Add an array of items', function(done) {
