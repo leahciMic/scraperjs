@@ -23,56 +23,56 @@ describe('Fetcher', function() {
   };
 
   it('jQuery returns jQuery object', function(done) {
-    fetcher.getjQuery(
+    fetcher.getDom(
       test_html,
-      function($) {
-        expect($('h1').text()).toEqual('Test page');
+      function(dom) {
+        expect(dom.$('h1').text()).toEqual('Test page');
         done();
       }
     );
   });
 
   it('Get base url', function(done) {
-    fetcher.getjQuery(
+    fetcher.getDom(
       test_html,
-      function($) {
-        expect(fetcher.getBaseUrl($, queueItem)).toEqual('http://example.com/');
-        $('base').attr('href', 'http://example.com/');
-        expect(fetcher.getBaseUrl($, queueItem)).toEqual('http://example.com/');
-        $('base').attr('href', 'http://example.com/test/');
-        expect(fetcher.getBaseUrl($, queueItem)).toEqual('http://example.com/test/');
-        $('base').remove();
-        expect(fetcher.getBaseUrl($, queueItem)).toEqual('http://www.google.com/');
+      function(dom) {
+        expect(fetcher.getBaseUrl(dom.$, queueItem)).toEqual('http://example.com/');
+        dom.$('base').attr('href', 'http://example.com/');
+        expect(fetcher.getBaseUrl(dom.$, queueItem)).toEqual('http://example.com/');
+        dom.$('base').attr('href', 'http://example.com/test/');
+        expect(fetcher.getBaseUrl(dom.$, queueItem)).toEqual('http://example.com/test/');
+        dom.$('base').remove();
+        expect(fetcher.getBaseUrl(dom.$, queueItem)).toEqual('http://www.google.com/');
         done();
       }
     );
   });
 
   it('Normalize url', function(done) {
-    fetcher.getjQuery(
+    fetcher.getDom(
       test_html,
-      function($) {
-        expect(fetcher.normalizeUrl('test', $, queueItem)).toEqual('http://example.com/test');
-        $('base').attr('href', 'http://example.com/example');
-        expect(fetcher.normalizeUrl('test', $, queueItem)).toEqual('http://example.com/example/test');
-        $('base').remove();
-        expect(fetcher.normalizeUrl('test', $, queueItem)).toEqual('http://www.google.com/test');
+      function(dom) {
+        expect(fetcher.normalizeUrl('test', dom.$, queueItem)).toEqual('http://example.com/test');
+        dom.$('base').attr('href', 'http://example.com/example');
+        expect(fetcher.normalizeUrl('test', dom.$, queueItem)).toEqual('http://example.com/example/test');
+        dom.$('base').remove();
+        expect(fetcher.normalizeUrl('test', dom.$, queueItem)).toEqual('http://www.google.com/test');
         done();
       }
     );
   });
 
   it('Processing links', function(done) {
-    fetcher.getjQuery(
+    fetcher.getDom(
       test_html,
-      function($) {
+      function(dom) {
         fetcher.processLinks(
           {
             links: {
               test: 'a'
             }
           },
-          $,
+          dom.$,
           test_html,
           queueItem,
           function(links) {
@@ -86,7 +86,7 @@ describe('Fetcher', function() {
                   test: /product\/45\//
                 }
               },
-              $,
+              dom.$,
               test_html,
               queueItem,
               function(links) {
@@ -103,14 +103,14 @@ describe('Fetcher', function() {
 
   it('Processing data', function(done) {
     //Fetcher.prototype.processData = function(actions, $, html, queueItem, root) {
-    fetcher.getjQuery(
+    fetcher.getDom(
       test_html,
-      function($) {
+      function(dom) {
         fetcher.processData(
           {
             data: mock.data
           },
-          $,
+          dom.$,
           test_html,
           queueItem,
           function(data) {
@@ -128,9 +128,9 @@ describe('Fetcher', function() {
 
   // test blocks
   it('Process blocks', function(done) {
-    fetcher.getjQuery(
+    fetcher.getDom(
       test_html,
-      function($) {
+      function(dom) {
       fetcher.processBlocks(
         {
           blocks: [{
@@ -142,7 +142,7 @@ describe('Fetcher', function() {
             }
           }]
         },
-        $,
+        dom.$,
         test_html,
         queueItem,
         function(results) {
@@ -177,11 +177,11 @@ describe('Fetcher', function() {
         home: 'a'
       }
     };
-    fetcher.getjQuery(
+    fetcher.getDom(
       test_html,
-      function($) {
+      function(dom) {
         fetcher.processActions(
-          $,
+          dom.$,
           test_html,
           queueItem,
           function(error, dataCollection) {

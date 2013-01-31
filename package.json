@@ -10,7 +10,6 @@
     "test": "make test"
   },
   "dependencies": {
-    "jquery": "~1.8.3",
     "jsdom": "~0.3.4",
     "underscore": "~1.4.3",
     "jasmine-node": "~1.0.28",
