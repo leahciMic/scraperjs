@@ -75,15 +75,15 @@ This fetcher written in CoffeeScript, will download the title, link, upvotes, an
 submission found on the front page. It will also traverse the popular sub-reddits found at the top of the page.
 
 	class reddit extends ScraperJS
-		home: 'links': 'div.sr-list ul.flat-list li a': 'home'
+		home: links: home: 'div.sr-list ul.flat-list li a'
 		blocks: [
-			'name': 'Reddit Front Page',
-			'root': 'div.thing:has(a.title)',
-			'data':
-				'title': 'a.title',
-				'link': ['a.title', ($) -> $(this).attr('href')]
-				'upvotes': ['', ($) -> $(this).attr('data-ups')]
-				'downvotes': ['', ($) -> $(this).attr('data-downs')]
+			name: 'Reddit Front Page',
+			root: 'div.thing:has(a.title)',
+			data:
+				title: 'a.title',
+				link: ['a.title', ($) -> $(this).attr('href')]
+				upvotes: ['', ($) -> $(this).attr('data-ups')]
+				downvotes: ['', ($) -> $(this).attr('data-downs')]
 		]
 		initialize: ->
 			@queue.add 'http://www.reddit.com/', 'home'
