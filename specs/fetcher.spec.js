@@ -5,7 +5,7 @@ describe('Fetcher', function() {
       'jqinput': '#input',
       'jqimage': '#image',
       'regex': '/AN6RMH3GCS5952YCCQKS/',
-      'func': function() {
+      'func': function($, html, queueItem) {
         // @todo ensure we are getting passed the correct params
         return 'oogie';
       }
@@ -53,12 +53,12 @@ describe('Fetcher', function() {
       test_html,
       function($) {
         expect(fetcher.normalizeUrl('test', $, queueItem)).toEqual('http://example.com/test');
-        $('base').attr('href', 'http://example.com/example'); 
+        $('base').attr('href', 'http://example.com/example');
         expect(fetcher.normalizeUrl('test', $, queueItem)).toEqual('http://example.com/example/test');
         $('base').remove();
         expect(fetcher.normalizeUrl('test', $, queueItem)).toEqual('http://www.google.com/test');
         done();
-      }  
+      }
     );
   });
 
@@ -72,8 +72,8 @@ describe('Fetcher', function() {
               'a': 'test'
             }
           },
-          $, 
-          test_html, 
+          $,
+          test_html,
           queueItem,
           function(links) {
             expect(links[0].url).toEqual('http://example.com/page/1/');
@@ -85,13 +85,13 @@ describe('Fetcher', function() {
                 links: {
                   '/product\\/45\\//': 'test'
                 }
-              }, 
-              $, 
-              test_html, 
+              },
+              $,
+              test_html,
               queueItem,
               function(links) {
                 expect(links[0].url).toEqual('http://example.com/product/45/');
-                expect(links[0].callback).toEqual('test'); 
+                expect(links[0].callback).toEqual('test');
                 done();
               }
             );
@@ -159,9 +159,9 @@ describe('Fetcher', function() {
 
   it('Missing action should fail', function(done) {
    fetcher.processActions(
-      null, 
-      '', 
-      queueItem, 
+      null,
+      '',
+      queueItem,
       function(error, dataCollection) {
         expect(error).toEqual(true);
         done();
@@ -181,9 +181,9 @@ describe('Fetcher', function() {
       test_html,
       function($) {
         fetcher.processActions(
-          $, 
-          test_html, 
-          queueItem, 
+          $,
+          test_html,
+          queueItem,
           function(error, dataCollection) {
             expect(error).toEqual(false);
             expect(dataCollection.links[0].url).toEqual('http://example.com/page/1/');

@@ -31,7 +31,7 @@ describe('Fetcher', function() {
       expect(fs.existsSync('mkdirr-test')).toEqual(true);
       fs.rmdirSync('mkdirr-test');
     }
-  ); 
+  );
 
   it('Add data to datastore', function(done) {
     datastore.add(

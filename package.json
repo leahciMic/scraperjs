@@ -15,6 +15,7 @@
     "underscore": "~1.4.3",
     "jasmine-node": "~1.0.28",
     "restler": "~2.0.1",
-    "flow-maintained": "~0.2.3"
+    "flow-maintained": "~0.2.3",
+    "redis": "~0.8.2"
   }
 }
