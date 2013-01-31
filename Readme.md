@@ -12,12 +12,12 @@ It provides basic functionality out of the box for simple scraping tasks, and th
 can be overridden for more complex tasks.
 
 ## Installation
-	git clone https://github.com/leahciMic/ScraperJS.git
-	cd ScraperJS
+	git clone https://github.com/leahciMic/scraperjs.git
+	cd scraperjs
 	npm install
 
 ## Running
-	node main
+	node index.js
 
 ## Fetchers
 Fetchers are very easy to build, you can even write them in CoffeeScript.
