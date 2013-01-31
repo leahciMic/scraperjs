@@ -69,7 +69,7 @@ describe('Fetcher', function() {
         fetcher.processLinks(
           {
             links: {
-              'a': 'test'
+              test: 'a'
             }
           },
           $,
@@ -83,7 +83,7 @@ describe('Fetcher', function() {
             fetcher.processLinks(
               {
                 links: {
-                  '/product\\/45\\//': 'test'
+                  test: /product\/45\//
                 }
               },
               $,
@@ -174,7 +174,7 @@ describe('Fetcher', function() {
     fetcher.testAction = {
       data: mock.data,
       links: {
-        'a': 'home'
+        home: 'a'
       }
     };
     fetcher.getjQuery(

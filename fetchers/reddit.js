@@ -3,7 +3,7 @@ var Fetcher = require('../lib/fetcher.js');
 var reddit = Fetcher.extend({
 	home: {
 		'links': {
-			'div.sr-list ul.flat-list li a': 'home'
+			'home': 'div.sr-list ul.flat-list li a'
 		},
 		'blocks': [{
 			'name': 'posts',
