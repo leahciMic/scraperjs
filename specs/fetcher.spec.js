@@ -13,7 +13,13 @@ describe('Fetcher', function() {
   };
 
   var Fetcher = require('../lib/fetcher.js');
-  var fetcher = new Fetcher({name: 'test'});
+
+  var fetcher = new Fetcher({
+    name: 'test',
+    queuestore: {
+      filename: 'queue-memory.js'
+    }
+  });
 
   var test_html = '<html><head><base href="http://example.com" /></head><body><h1>Test page</h1><ul><li><a href="http://example.com/page/1/">Page 1</a></li><li><a href="page/2/">Page 2</a></li></ul><span>product/45/</span><div><p id="text">This is sample text.</p><input id="input" value="Sample value" /><img id="image" src="image.jpg" />AN6RMH3GCS5952YCCQKS</div></body></html>';
 
@@ -131,30 +137,30 @@ describe('Fetcher', function() {
     fetcher.getDom(
       test_html,
       function(dom) {
-      fetcher.processBlocks(
-        {
-          blocks: [{
-            name: 'Block',
-            root: 'ul li',
-            data: {
-              'test': 'a',
-              'href': ['a', function($) { return $(this).attr('href'); }]
-            }
-          }]
-        },
-        dom.$,
-        test_html,
-        queueItem,
-        function(results) {
-          var block = results.Block;
-          expect(block[0].test).toEqual('Page 1');
-          expect(block[0].href).toEqual('http://example.com/page/1/');
-          expect(block.length).toEqual(2);
-          done();
-        }
-      );
-
-    });
+        fetcher.processBlocks(
+          {
+            blocks: [{
+              name: 'Block',
+              root: 'ul li',
+              data: {
+                'test': 'a',
+                'href': ['a', function($) { return $(this).attr('href'); }]
+              }
+            }]
+          },
+          dom.$,
+          test_html,
+          queueItem,
+          function(results) {
+            var block = results.Block;
+            expect(block[0].test).toEqual('Page 1');
+            expect(block[0].href).toEqual('http://example.com/page/1/');
+            expect(block.length).toEqual(2);
+            done();
+          }
+        );
+      }
+    );
   });
 
   it('Missing action should fail', function(done) {

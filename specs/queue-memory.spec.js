@@ -1,6 +1,6 @@
 describe('Memory Queue', function() {
   var QM = require('../lib/queue-memory.js');
-  var qm = new QM();
+  var qm = new QM({fetcher: 'test'});
 
   it('Initial length should be zero', function(done) {
     qm.length(function(len) {

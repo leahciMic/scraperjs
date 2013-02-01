@@ -13,7 +13,10 @@ fs.readdir(
         var name, fetcher;
         if ((name = file.match(/(.*)\.js/))) {
           fetcher = require('./fetchers/' + file);
-          fetcher = new fetcher({name: name[1]});
+          fetcher = new fetcher({
+            name: name[1],
+            queuestore: config.queuestore
+          });
           fetcher.start();
         }
       }
