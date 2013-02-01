@@ -2,26 +2,34 @@ describe('Memory Queue', function() {
   var QM = require('../lib/queue-memory.js');
   var qm = new QM();
 
-  it('Initial length should be zero', function() {
-    expect(qm.length()).toEqual(0);
-  });
-
-  it('Add an item', function(done) {
-    qm.add({url: 'http://example.com', callback: 'test'}, function() {
-      expect(qm.length()).toEqual(1);
+  it('Initial length should be zero', function(done) {
+    qm.length(function(len) {
+      expect(len).toEqual(0);
       done();
     });
   });
 
-  it('Add an empty array', function(done) {
-    var qlength = qm.length();
-    qm.add(
-      [],
-      function() {
-        expect(qm.length()).toEqual(qlength);
+  it('Add an item', function(done) {
+    qm.add({url: 'http://example.com', callback: 'test'}, function() {
+      qm.length(function(len) {
+        expect(len).toEqual(1);
         done();
-      }
-    );
+      });
+    });
+  });
+
+  it('Add an empty array', function(done) {
+    qm.length(function(origlen) {
+      qm.add(
+        [],
+        function() {
+          qm.length(function(len) {
+            expect(len).toEqual(origlen);
+            done();
+          });
+        }
+      );
+    });
   });
 
   it('Add an array of items', function(done) {
@@ -32,40 +40,64 @@ describe('Memory Queue', function() {
         {url: 'http://example.com/4', callback: 'test4'}
       ],
       function() {
-        expect(qm.length()).toEqual(4);
-        done();
+        qm.length(function(len) {
+          expect(len).toEqual(4);
+          done();
+        });
       }
     )
   });
 
-  it('Item exists', function() {
-    expect(
-      qm.exists('http://example.com')
-    ).toEqual(true);
+  it('Item exists', function(done) {
+    qm.exists('http://example.com', function(exists) {
+      expect(exists).toEqual(true);
+      done();
+    });
   });
 
-  it('Get all items', function() {
-    var urls = qm.getAll();
-    expect(urls[0].url).toEqual('http://example.com');
-    expect(urls[0].callback).toEqual('test');
-    expect(urls[1].url).toEqual('http://example.com/2');
-    expect(urls[1].callback).toEqual('test2');
+  it('Item does not exist', function(done) {
+    qm.exists('http://example.com/noexist', function(exists) {
+      expect(exists).toEqual(false);
+      done();
+    });
   });
 
-  it('Get an item', function() {
-    var qi = qm.get();
-    expect(qm.length()).toEqual(3);
-    expect(qi.url).toEqual('http://example.com');
-    expect(qi.callback).toEqual('test');
+  it('Get all items', function(done) {
+    qm.getAll(function(urls) {
+      expect(urls[0].url).toEqual('http://example.com');
+      expect(urls[0].callback).toEqual('test');
+      expect(urls[1].url).toEqual('http://example.com/2');
+      expect(urls[1].callback).toEqual('test2');
+      done();
+    });
   });
 
-  it('Clear items', function() {
-    qm.clear();
-    expect(qm.length()).toEqual(0);
+  it('Get an item', function(done) {
+    qm.get(function(qi) {
+      qm.length(function(len) {
+        expect(len).toEqual(3);
+        expect(qi.url).toEqual('http://example.com');
+        expect(qi.callback).toEqual('test');
+        done();
+      });
+    });
   });
 
-  it('Get on empty queue should return false', function() {
-    expect(qm.get()).toBeFalsy();
+  it('Clear items', function(done) {
+    qm.clear(function(cleared) {
+      expect(cleared).toEqual(true);
+      qm.length(function(len) {
+        expect(len).toEqual(0);
+        done();
+      });
+    });
+  });
+
+  it('Get on empty queue should return false', function(done) {
+    qm.get(function(qi) {
+      expect(qi).toBeFalsy();
+      done();
+    });
   });
 
 });
