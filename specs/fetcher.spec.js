@@ -81,7 +81,7 @@ describe('Fetcher', function() {
           dom.$,
           test_html,
           queueItem,
-          function(links) {
+          function(error, links) {
             expect(links[0].url).toEqual('http://example.com/page/1/');
             expect(links[1].url).toEqual('http://example.com/page/2/');
             expect(links[0].callback).toEqual('test');
@@ -95,7 +95,7 @@ describe('Fetcher', function() {
               dom.$,
               test_html,
               queueItem,
-              function(links) {
+              function(error, links) {
                 expect(links[0].url).toEqual('http://example.com/product/45/');
                 expect(links[0].callback).toEqual('test');
                 done();
@@ -119,7 +119,7 @@ describe('Fetcher', function() {
           dom.$,
           test_html,
           queueItem,
-          function(data) {
+          function(error, data) {
             expect(data.jqnormalelement).toEqual('This is sample text.');
             expect(data.jqinput).toEqual('Sample value');
             expect(data.jqimage).toEqual('image.jpg');
@@ -151,7 +151,7 @@ describe('Fetcher', function() {
           dom.$,
           test_html,
           queueItem,
-          function(results) {
+          function(error, results) {
             var block = results.Block;
             expect(block[0].test).toEqual('Page 1');
             expect(block[0].href).toEqual('http://example.com/page/1/');
@@ -191,7 +191,7 @@ describe('Fetcher', function() {
           test_html,
           queueItem,
           function(error, dataCollection) {
-            expect(error).toEqual(false);
+            expect(error).toBeFalsy();
             expect(dataCollection.links[0].url).toEqual('http://example.com/page/1/');
             expect(dataCollection.data['jqnormalelement']).toEqual('This is sample text.');
             done();
