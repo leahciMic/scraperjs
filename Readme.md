@@ -6,8 +6,7 @@
 ScraperJS is currently a work in progress, and is not yet ready to be used. However, feel free to
 check out the code, fork it, submit pull requests. Make suggestions, and add issues.
 
-ScraperJS is an extensible JavaScript framework for scraping the web. It utilises cheerio (jQuery 
-implementation for the server) or jQuery, and regular expressions to gather required data from a page. 
+ScraperJS is an extensible JavaScript framework for scraping the web. It utilises jQuery, and regular expressions to gather required data from a web page. 
 It provides basic functionality out of the box for simple scraping tasks, and this basic functionality
 can be overridden for more complex tasks.
 
@@ -18,9 +17,21 @@ can be overridden for more complex tasks.
 
 ## Running
 	node index.js
+	
+## Tests
+	npm test
+	
+## Queues
+
+Queues are responsible for keeping state of the backlog of urls to scrape.
+
+## Datastores
+Datastores are responsible for storing data returned from a fetcher.
 
 ## Fetchers
-Fetchers are very easy to build, you can even write them in CoffeeScript.
+Fetchers are collections of instructions that define what data should be returned from the scraping job.
+Each queue item will contain a callback which is a property on the fetcher object. This callback can either
+be a function for manual processing, or an object consiting of jQuery/regex expressinos.
 
 ### Extending ScraperJS to create a fetcher
 	reddit = ScraperJS.extend({
@@ -40,9 +51,9 @@ Initialize is ran when the fetcher is instantiated. Prefect for adding start url
 The links property should contain regular expressions or jQuery expressions to explain the links to follow on 
 the current page.
 
-	'links': {
-		'div a': 'all',
-		'/a href="([^"]*)"/': 'all'
+	links: {
+		jquery: 'div a',
+		regex: /a href="([^"]*)"/
 	}
 When using regular expressions, if 1 sub-query is used, ScraperJS will assume this to be the url to follow,
 otherwise the entire matched expression is used.
@@ -51,7 +62,7 @@ otherwise the entire matched expression is used.
 The data property should contain regular expressions or jQuery expressions to specify the data to capture from
 the current page.
 
-	'data': {
+	data: {
 		'Track Title': 'div.track span.title',
 		'Track Duration': 'div.track span.duration',
 		'Track Artist': 'div.track span.artist'
@@ -60,13 +71,13 @@ the current page.
 #### blocks
 Specifies blocks of repeating sections we would like to capture data from. The syntax is similar to the data property.
 
-	'blocks': [
-		'name': 'track',
-		'root': 'div.track',
-		'data': {
-			'title': 'span.title',
-			'duration': 'span.duration',
-			'artist': 'span.artist'
+	blocks: [
+		name: 'track',
+		root: 'div.track',
+		data: {
+			title: 'span.title',
+			duration: 'span.duration',
+			artist: 'span.artist'
 		}
 	]
 
