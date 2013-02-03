@@ -17,6 +17,7 @@ describe('Queue Redis', function() {
       });
     });
   });
+
   it('Add an empty array', function(done) {
     qm.length(function(origlen) {
       qm.add(
