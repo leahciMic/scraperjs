@@ -62,18 +62,8 @@ describe('Memory Queue', function() {
     });
   });
 
-  it('Get all items', function(done) {
-    qm.getAll(function(urls) {
-      expect(urls[0].url).toEqual('http://example.com');
-      expect(urls[0].callback).toEqual('test');
-      expect(urls[1].url).toEqual('http://example.com/2');
-      expect(urls[1].callback).toEqual('test2');
-      done();
-    });
-  });
-
-  it('Get an item', function(done) {
-    qm.get(function(qi) {
+ it('Get an item', function(done) {
+    qm.get(function(error, qi) {
       qm.length(function(len) {
         expect(len).toEqual(3);
         expect(qi.url).toEqual('http://example.com');
@@ -94,7 +84,7 @@ describe('Memory Queue', function() {
   });
 
   it('Get on empty queue should return false', function(done) {
-    qm.get(function(qi) {
+    qm.get(function(error, qi) {
       expect(qi).toBeFalsy();
       done();
     });
