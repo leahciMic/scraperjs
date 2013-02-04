@@ -16,6 +16,7 @@ fs.readdir(
           fetcher = new fetcher({
             name: name[1],
             queuestore: config.queuestore
+            datastore: config.datastore
           });
           fetcher.start();
         }
