@@ -3,7 +3,8 @@ describe('Fetcher', function() {
       fs = require('fs');
 
   var datastore = new Datastore({
-    saveTo: 'datastore-file-test/'
+    saveTo: 'datastore-file-test/',
+    fetcher: 'test-fetcher'
   });
 
   it(
@@ -35,7 +36,6 @@ describe('Fetcher', function() {
 
   it('Add data to datastore', function(done) {
     datastore.add(
-      'test-fetcher',
       {url: 'http://example.com'},
       {
         test: 'test'
