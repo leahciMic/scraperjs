@@ -58,7 +58,6 @@ describe('Fetcher', function() {
    */
 
   it('Close redis connection to ensure tests does not hang', function() {
-    console.log('closing redis connection');
     datastore.destroy();
     client.quit();
   });
