@@ -9,6 +9,14 @@ describe('Queue Redis', function() {
     });
   });
 
+  it('Get on an empty list', function(done) {
+    qm.get(function(error, queueItem) {
+      expect(error).toBeFalsy();
+      expect(queueItem).toBeFalsy();
+      done();
+    });
+  });
+
   it('Add an item', function(done) {
     qm.add({url: 'http://example.com', callback: 'test'}, function() {
       qm.length(function(len) {

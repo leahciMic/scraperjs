@@ -18,6 +18,9 @@ describe('Fetcher', function() {
     name: 'test',
     queuestore: {
       filename: 'queue-memory.js'
+    },
+    datastore: {
+      filename: 'datastore-file.js'
     }
   });
 
