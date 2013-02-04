@@ -10,7 +10,7 @@ describe('Fetcher', function() {
   it(
     'Datastore to create saveTo path',
     function() {
-      expect(fs.existsSync(datastore.config.saveTo)).toEqual(true);
+      expect(fs.existsSync(datastore.options.saveTo)).toEqual(true);
     }
   );
 
