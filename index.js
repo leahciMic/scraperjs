@@ -15,7 +15,7 @@ fs.readdir(
           fetcher = require('./fetchers/' + file);
           fetcher = new fetcher({
             name: name[1],
-            queuestore: config.queuestore
+            queuestore: config.queuestore,
             datastore: config.datastore
           });
           fetcher.start();
