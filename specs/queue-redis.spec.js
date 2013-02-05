@@ -1,6 +1,7 @@
 describe('Queue Redis', function() {
   var QM = require('../lib/queue-redis.js');
   var qm = new QM({fetcher: 'test'});
+  var async = require('async');
 
   it('Initial length should be zero', function(done) {
     qm.length(function(len) {
@@ -80,7 +81,18 @@ describe('Queue Redis', function() {
           qi,
           function(error) {
             expect(error).toBeFalsy();
-            done();
+            async.parallel([
+              function(callback) {
+                qm.client.del('queue:test:89dce6a446a69d6b9bdc01ac75251e4c322bcdff', callback);
+              },
+              function(callback) {
+                qm.client.del('queue:test:completed', callback);
+              }],
+              function(err, results) {
+                expect(err).toBeFalsy();
+                done();
+              }
+            );
           }
         );
       });
@@ -116,6 +128,7 @@ describe('Queue Redis', function() {
                 expect(beforeLength).toEqual(0);
                 expect(afterLength).toEqual(1);
                 qm.clear(function() {
+                  // @todo investigate if anything needs cleaning up here
                   done();
                 });
               });
