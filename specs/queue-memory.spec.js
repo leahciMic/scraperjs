@@ -10,8 +10,9 @@ describe('Memory Queue', function() {
   });
 
   it('Add an item', function(done) {
-    qm.add({url: 'http://example.com', callback: 'test'}, function() {
+    qm.add({url: 'http://example.com', callback: 'test'}, function(error) {
       qm.length(function(len) {
+        expect(error).toBeFalsy();
         expect(len).toEqual(1);
         done();
       });
@@ -22,8 +23,9 @@ describe('Memory Queue', function() {
     qm.length(function(origlen) {
       qm.add(
         [],
-        function() {
+        function(error) {
           qm.length(function(len) {
+            expect(error).toBeFalsy();
             expect(len).toEqual(origlen);
             done();
           });
@@ -39,8 +41,9 @@ describe('Memory Queue', function() {
         {url: 'http://example.com/3', callback: 'test3'},
         {url: 'http://example.com/4', callback: 'test4'}
       ],
-      function() {
+      function(error) {
         qm.length(function(len) {
+          expect(error).toBeFalsy();
           expect(len).toEqual(4);
           done();
         });
@@ -74,8 +77,8 @@ describe('Memory Queue', function() {
   });
 
   it('Clear items', function(done) {
-    qm.clear(function(cleared) {
-      expect(cleared).toEqual(true);
+    qm.clear(function(error) {
+      expect(error).toEqual(false);
       qm.length(function(len) {
         expect(len).toEqual(0);
         done();
