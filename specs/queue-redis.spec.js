@@ -1,11 +1,48 @@
 describe('Queue Redis', function() {
-  var QM = require('../lib/queue-redis.js');
-  var qm = new QM({fetcher: 'test'});
-  var async = require('async-leahcimic');
+  var QM = require('../lib/queue-redis.js'),
+      qm = new QM({fetcher: 'test'}),
+      async = require('async-leahcimic'),
+      sha1 = require('../contrib/sha1.js'),
+      mock = {
+        queueItem: {url: 'http://example.com', callback: 'test', meta: 'yes'}
+      },
+      cleanqm;
 
-  var mock = {
-    queueItem: {url: 'http://example.com', callback: 'test', meta: 'yes'}
-  };
+  cleanqm = new QM({fetcher: 'test'});
+  it('complete', function(done) {
+    var methods = {};
+    methods.lrem = jasmine.createSpy('lrem').andCallFake(function() {
+      return methods;
+    });
+
+    methods.lpush = jasmine.createSpy('lpush').andCallFake(function() {
+      return methods;
+    });
+
+    methods.set = jasmine.createSpy('set').andCallFake(function() {
+      return methods;
+    });
+
+    methods.exec = jasmine.createSpy('exec').andCallFake(function(callback) {
+      callback(false);
+    });
+
+    spyOn(cleanqm.client, 'multi').andCallFake(function() {
+      return methods;
+    });
+
+    cleanqm.complete(mock.queueItem, function(error) {
+      expect(error).toBeFalsy();
+      expect(methods.lrem).toHaveBeenCalledWith(
+        cleanqm.getRedisKeyPrefix() + ':inprogress',
+        0,
+        sha1(mock.queueItem.url)
+      );
+      done();
+
+    });
+  });
+  cleanqm.destroy();
 
   it('Initial length should be zero', function(done) {
     qm.length(function(len) {
@@ -28,7 +65,7 @@ describe('Queue Redis', function() {
         expect(error).toBeFalsy();
         expect(queueItem.meta).toBeDefined();
         expect(queueItem).toEqual(mock.queueItem);
-        qm.complete(queueItem, function() {
+        qm.complete(mock.queueItem, function() {
           async.parallel([
             function(callback) {
               qm.client.del('queue:test:89dce6a446a69d6b9bdc01ac75251e4c322bcdff', callback);
