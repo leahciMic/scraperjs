@@ -2,7 +2,7 @@ describe('Fetcher', function() {
   var Datastore = require('../lib/datastore-redis.js'),
       fs = require('fs'),
       redis = require('redis'),
-      async = require('async');
+      async = require('async-leahcimic');
 
   var datastore = new Datastore({
     fetcher: 'test'

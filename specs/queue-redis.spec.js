@@ -1,7 +1,7 @@
 describe('Queue Redis', function() {
   var QM = require('../lib/queue-redis.js');
   var qm = new QM({fetcher: 'test'});
-  var async = require('async');
+  var async = require('async-leahcimic');
 
   it('Initial length should be zero', function(done) {
     qm.length(function(len) {
@@ -11,9 +11,9 @@ describe('Queue Redis', function() {
   });
 
   it('Get on an empty list', function(done) {
-    qm.get(function(error, queueItem) {
-      expect(error).toBeFalsy();
-      expect(queueItem).toBeFalsy();
+    qm.get(function(error) {
+      expect(error instanceof Error).toEqual(true);
+      expect(error.message).toEqual('QUEUE_EMPTY');
       done();
     });
   });

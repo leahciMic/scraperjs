@@ -16,6 +16,6 @@
     "restler": "~2.0.1",
     "flow-maintained": "~0.2.3",
     "redis": "~0.8.2",
-    "async": "~0.1.22"
+    "async-leahcimic": "~0.2.6"
   }
 }

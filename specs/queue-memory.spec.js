@@ -9,6 +9,14 @@ describe('Memory Queue', function() {
     });
   });
 
+  it('Get on an empty queue should return QUEUE_EMPTY', function(done) {
+    qm.get(function(error, queueItem) {
+      expect(error instanceof Error).toEqual(true);
+      expect(error.message).toEqual('QUEUE_EMPTY');
+      done();
+    });
+  })
+
   it('Add an item', function(done) {
     qm.add({url: 'http://example.com', callback: 'test'}, function(error) {
       qm.length(function(len) {
