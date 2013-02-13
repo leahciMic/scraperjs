@@ -3,6 +3,10 @@ describe('Queue Redis', function() {
   var qm = new QM({fetcher: 'test'});
   var async = require('async-leahcimic');
 
+  var mock = {
+    queueItem: {url: 'http://example.com', callback: 'test', meta: 'yes'}
+  };
+
   it('Initial length should be zero', function(done) {
     qm.length(function(len) {
       expect(len).toEqual(0);
@@ -15,6 +19,30 @@ describe('Queue Redis', function() {
       expect(error instanceof Error).toEqual(true);
       expect(error.message).toEqual('QUEUE_EMPTY');
       done();
+    });
+  });
+
+  it('Stores metadata correctly', function(done) {
+    qm.add(mock.queueItem, function() {
+      qm.get(function(error, queueItem) {
+        expect(error).toBeFalsy();
+        expect(queueItem.meta).toBeDefined();
+        expect(queueItem).toEqual(mock.queueItem);
+        qm.complete(queueItem, function() {
+          async.parallel([
+            function(callback) {
+              qm.client.del('queue:test:89dce6a446a69d6b9bdc01ac75251e4c322bcdff', callback);
+            },
+            function(callback) {
+              qm.client.del('queue:test:completed', callback);
+            }],
+            function(err, results) {
+              expect(err).toBeFalsy();
+              done();
+            }
+          );
+        });
+      });
     });
   });
 

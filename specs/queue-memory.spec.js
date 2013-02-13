@@ -1,6 +1,14 @@
 describe('Memory Queue', function() {
-  var QM = require('../lib/queue-memory.js');
-  var qm = new QM({fetcher: 'test'});
+  var QM = require('../lib/queue-memory.js'),
+      qm = new QM({fetcher: 'test'}),
+      cleanqm,
+      mock = {
+        queueItem: {url: 'http://example.com', callback: 'test', meta: 'yes'}
+      };
+
+  beforeEach(function() {
+    cleanqm = new QM({fetcher: 'test'});
+  });
 
   it('Initial length should be zero', function(done) {
     qm.length(function(len) {
@@ -15,7 +23,20 @@ describe('Memory Queue', function() {
       expect(error.message).toEqual('QUEUE_EMPTY');
       done();
     });
-  })
+  });
+
+  it('Stores metadata correctly', function(done) {
+    cleanqm.add(mock.queueItem, function() {
+      cleanqm.get(function(error, queueItem) {
+        expect(error).toBeFalsy();
+        expect(queueItem.meta).toBeDefined();
+        expect(queueItem).toEqual(mock.queueItem);
+        cleanqm.complete(queueItem, function() {
+          done();
+        });
+      });
+    });
+  });
 
   it('Add an item', function(done) {
     qm.add({url: 'http://example.com', callback: 'test'}, function(error) {
