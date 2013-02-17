@@ -17,6 +17,11 @@ describe('Memory Queue', function() {
     });
   });
 
+  it('Fail', function(done) {
+    // fail() is empty function atm
+    done();
+  });
+
   it('Get on an empty queue should return QUEUE_EMPTY', function(done) {
     qm.get(function(error, queueItem) {
       expect(error instanceof Error).toEqual(true);

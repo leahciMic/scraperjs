@@ -44,6 +44,50 @@ describe('Queue Redis', function() {
   });
   cleanqm.destroy();
 
+  cleanqm = new QM({fetcher: 'test'});
+  it('fail', function(done) {
+    var methods = {};
+    methods.lrem = jasmine.createSpy('lrem').andCallFake(function() {
+      return methods;
+    });
+
+    methods.lpush = jasmine.createSpy('lpush').andCallFake(function() {
+      return methods;
+    });
+
+    methods.set = jasmine.createSpy('set').andCallFake(function() {
+      return methods;
+    });
+
+    methods.exec = jasmine.createSpy('exec').andCallFake(function(callback) {
+      callback(false);
+    });
+
+    spyOn(cleanqm.client, 'multi').andCallFake(function() {
+      return methods;
+    });
+
+    cleanqm.fail(mock.queueItem, function(error) {
+      expect(error).toBeFalsy();
+      expect(methods.set).toHaveBeenCalledWith(
+        cleanqm.getRedisKeyPrefix() + ':' + sha1(mock.queueItem.url),
+        JSON.stringify(mock.queueItem)
+      );
+      expect(methods.lpush).toHaveBeenCalledWith(
+        cleanqm.getRedisKeyPrefix() + ':fail',
+        sha1(mock.queueItem.url)
+      );
+      expect(methods.lrem).toHaveBeenCalledWith(
+        cleanqm.getRedisKeyPrefix() + ':inprogress',
+        0,
+        sha1(mock.queueItem.url)
+      );
+      done();
+
+    });
+  });
+  cleanqm.destroy();
+
   it('Initial length should be zero', function(done) {
     qm.length(function(len) {
       expect(len).toEqual(0);
@@ -71,7 +115,7 @@ describe('Queue Redis', function() {
               qm.client.del('queue:test:89dce6a446a69d6b9bdc01ac75251e4c322bcdff', callback);
             },
             function(callback) {
-              qm.client.del('queue:test:completed', callback);
+              qm.client.del('queue:test:complete', callback);
             }],
             function(err, results) {
               expect(err).toBeFalsy();
