@@ -1,6 +1,6 @@
 # ScraperJS
 
-[![Build Status](https://travis-ci.org/leahciMic/scraperjs.png?branch=master)](https://travis-ci.org/leahciMic/scraperjs)
+[![Build Status](https://travis-ci.org/leahciMic/scraperjs.png?branch=master)](https://travis-ci.org/leahciMic/scraperjs) [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=leahciMic&url=https://github.com/leahciMic/scraperjs&title=scraperjs&language=javascript&tags=github&category=software)
 
 ## Current state
 ScraperJS is currently a work in progress, and is not yet ready to be used. However, feel free to
